@@ -100,9 +100,10 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                     saved_name = prefs2.getString("acount", "none");
                 }
                 if (name.equals(saved_name)) {
-                    //じゃんけんの選択画面に移る
-                    Intent intent1 = new Intent(InputActivity.this, SelectActivity.class);
-                    startActivity(intent1);
+                    //SelectActivityの画面の勝ち負けの数を上書きする
+                    Intent intent_s = new Intent(InputActivity.this, SelectActivity.class);
+                    intent_s.putExtra("user_w_l",1);
+                    startActivity(intent_s);
                     break;
                 } else {
                     //「登録されていません」と表示する（予定）

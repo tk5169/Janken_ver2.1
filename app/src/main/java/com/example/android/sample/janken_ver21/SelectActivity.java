@@ -18,12 +18,39 @@ public class SelectActivity extends AppCompatActivity implements View.OnClickLis
 
     int win = 0;
     int lose = 0;
+    double percent = 0;
+
+    int user = 0;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
+
+        Intent i = getIntent();
+        int user = i.getIntExtra("user_w_l",0);
+
+
+        if(user==1) {
+
+            //保存した勝ち負けの数を上書き
+            SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+            win = prefs.getInt("win", 0);
+            lose = prefs.getInt("lose", 0);
+
+            TextView tvWin = (TextView) findViewById(R.id.win);
+            tvWin.setText("勝利数：" + win);
+
+            TextView tvLose = (TextView) findViewById(R.id.lose);
+            tvLose.setText("敗北数：" + lose);
+
+            percent = ((double) win / (double) (win + lose)) * 100; // 1/(1+2) = 0.3333
+            TextView tvPercent = (TextView) findViewById(R.id.percent);
+            tvPercent.setText("勝率：" + percent + "%");
+        }
+
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.left);
         imageButton.setOnClickListener(this);
@@ -37,7 +64,7 @@ public class SelectActivity extends AppCompatActivity implements View.OnClickLis
             percent =0;
         }else {
             //        勝率　＝　勝った数　/　（勝った数＋負けた数）
-            percent = ((double) win / (double) (win + lose)); // 1/(1+2) = 0.3333
+            percent = ((double) win / (double) (win + lose))*100; // 1/(1+2) = 0.3333
         }
 
         TextView tvWin = (TextView)findViewById(R.id.win);
