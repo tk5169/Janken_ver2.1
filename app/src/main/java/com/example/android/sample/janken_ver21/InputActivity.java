@@ -20,6 +20,10 @@ import android.widget.TextView;
 
 public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //ユーザー情報の入力に使う
+    String name = "none";
+    String saved_name = "none";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,26 +67,6 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-//
-//        if(s.equals("はじめから")){
-//            //EditTextに書かれていることを読み取ってString型にする
-//            EditText etInput = (EditText) findViewById(R.id.etInput);
-//            Editable editable = etInput.getText();
-//            String acount = editable.toString();
-//
-//            SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = prefs.edit();
-//            //strの情報を保存
-//            editor.putString("string", acount);
-//            editor.apply();
-//        }else if(s.equals("つづきから")){
-//            finish();
-//        }
-//
-//
-//
-//        int id = view.getId();
-//
         int id = view.getId();
         switch (id) {
 
@@ -91,31 +75,40 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                 Intent i = getIntent();
                 String s = i.getStringExtra("n_or_c");
                 if(s.equals("はじめから")) {
-//                    //EditTextに書かれていることを読み取ってString型にする
-//                    EditText etInput = (EditText) findViewById(R.id.etInput);
-//                    Editable editable = etInput.getText();
-//                    String acount = editable.toString();
-//
-//                    SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
-//                    //acountの情報を保存
-//                    SharedPreferences.Editor editor = prefs.edit();
-//                    editor.putString("string", acount);
-//                    editor.apply();
+                    //EditTextに書かれていることを読み取ってString型にする
+                    EditText etInput = (EditText) findViewById(R.id.etInput);
+                    Editable editable = etInput.getText();
+                    String acount = editable.toString();
+
+                    SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+                    //acountの情報を保存
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("acount", acount);
+                    editor.apply();
 
                     //じゃんけんの選択画面に移る
                     Intent intent1 = new Intent(InputActivity.this, SelectActivity.class);
                     startActivity(intent1);
                     break;
                 }else if(s.equals("つづきから")){
-                    SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
-                    //保存した情報の出力
-                    String sTr = prefs.getString("string", "aa");
+                    EditText etInput2 = (EditText)findViewById(R.id.etInput);
+                    Editable editable2 = etInput2.getText();
+                    name = editable2.toString();
+
+                    //保存したユーザ情報を取得
+                    SharedPreferences prefs2 = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+                    saved_name = prefs2.getString("acount", "none");
+                }
+                if (name.equals(saved_name)) {
+                    //じゃんけんの選択画面に移る
                     Intent intent1 = new Intent(InputActivity.this, SelectActivity.class);
                     startActivity(intent1);
-
+                    break;
+                } else {
+                    //「登録されていません」と表示する（予定）
+                    finish();
                     break;
                 }
-
             case R.id.btnBack:
                 finish();
                 break;
